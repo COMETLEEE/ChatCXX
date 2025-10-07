@@ -1,5 +1,9 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
-#include <windows.h>
+#include "NetworkCoreMinimal.h"
+
+#pragma comment(lib, "ws2_32.lib")
+#pragma comment(lib, "mswsock.lib")
+#pragma comment(lib, "advapi32.lib")
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,

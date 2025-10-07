@@ -1,13 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36221.1 d17.14
+VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChatClient", "ChatClient\ChatClient.vcxproj", "{57825DA1-5576-42EA-ABF8-836858B6E19B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{55FFBF98-034E-41AE-8A81-4840A766238D} = {55FFBF98-034E-41AE-8A81-4840A766238D}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkCore", "NetworkCore\NetworkCore.vcxproj", "{55FFBF98-034E-41AE-8A81-4840A766238D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChatServer", "ChatServer\ChatServer.vcxproj", "{35A14FC0-8B01-4187-B635-5308848CF64F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{55FFBF98-034E-41AE-8A81-4840A766238D} = {55FFBF98-034E-41AE-8A81-4840A766238D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

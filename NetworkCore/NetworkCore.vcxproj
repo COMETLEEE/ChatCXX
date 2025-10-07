@@ -228,11 +228,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.h" />
-    <ClInclude Include="NetworkCore.h" />
+    <ClInclude Include="Listener.h" />
+    <ClInclude Include="Logger.h" />
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="IocpService.h" />
+    <ClInclude Include="NetworkCoreMinimal.h" />
+    <ClInclude Include="Session.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DllMain.cpp" />
-    <ClCompile Include="NetworkCore.cpp" />
+    <ClCompile Include="IocpService.cpp" />
+    <ClCompile Include="Listener.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="Session.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
