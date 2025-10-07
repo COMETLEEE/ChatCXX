@@ -1,0 +1,2 @@
+#define NETWORKCORE_API __declspec(dllexport)
+#define NETWORKCORE_API __declspec(dllimport)
