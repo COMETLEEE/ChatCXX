@@ -230,6 +230,7 @@
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Listener.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="NetworkSystem.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="IocpService.h" />
     <ClInclude Include="NetworkCoreMinimal.h" />
@@ -240,6 +241,7 @@
     <ClCompile Include="IocpService.cpp" />
     <ClCompile Include="Listener.cpp" />
     <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="NetworkSystem.cpp" />
     <ClCompile Include="Session.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,8 +1,11 @@
 #pragma once
 
+#include "..\NetworkCore\Session.h"
+
 namespace chatserver
 {
-	class ClientSession
+	class ClientSession : public networkcore::Session
 	{
+
 	};
 }

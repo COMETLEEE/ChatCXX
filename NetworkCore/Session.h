@@ -12,7 +12,11 @@ namespace networkcore
 
 		SOCKET GetSocket() const;
 
+		void SetSocket(SOCKET socket);
+
 		void SetIocpService(IocpServicePtr iocpService);
+
+		IocpServicePtr GetIocpService() const;
 
 	private:
 		IocpServicePtr _iocpService;

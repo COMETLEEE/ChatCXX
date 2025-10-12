@@ -3,9 +3,10 @@
 
 namespace networkcore
 {
-	class Listener
+	class Listener final
 	{
 	public:
+		static ListenerPtr CreateListener();
 
 	private:
 

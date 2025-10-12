@@ -11,4 +11,14 @@ namespace networkcore
 	{
 		std::wcout << log << '\n';
 	}
+
+	void Logger::WriteError(std::string_view errLog)
+	{
+		std::cerr << errLog << '\n';
+	}
+
+	void Logger::WriteError(std::wstring_view errLog)
+	{
+		std::wcerr << errLog << '\n';
+	}
 }

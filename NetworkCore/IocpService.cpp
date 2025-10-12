@@ -23,7 +23,7 @@ namespace networkcore
 
 		if (NULL == _iocpHandle)
 		{
-			Logger::WriteLine(std::format("Failed to create iocp handle. Error code - {}"
+			Logger::WriteError(std::format("Failed to create iocp handle. Error code - {}"
 				, GetLastError()));
 		}
 	}
@@ -35,7 +35,7 @@ namespace networkcore
 
 		if (NULL == result)
 		{
-			Logger::WriteLine(std::format("Failed to register session socket. Error code - {}"
+			Logger::WriteError(std::format("Failed to register session socket. Error code - {}"
 				, GetLastError()));
 		}
 	}
@@ -81,16 +81,24 @@ namespace networkcore
 
 	void IocpService::WorkerIocp(std::stop_token st)
 	{
+		DWORD numBytes;
+		ULONG_PTR completionKey;
+		LPOVERLAPPED lpOverlapped;
+
 		while (!st.stop_requested())
 		{
-			/*if (GetQueuedCompletionStatusEx())
+			BOOL bOk = GetQueuedCompletionStatus(_iocpHandle, &numBytes, &completionKey, &lpOverlapped, INFINITE);
+			DWORD error = GetLastError();
+
+			// Worker thread 에서는 I/O 만 진행하고 로직은 싱글 스레드로 전부 이관
+			if (bOk)
 			{
 
 			}
 			else
 			{
 
-			}*/
+			}
 		}
 	}
 }

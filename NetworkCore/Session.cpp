@@ -2,7 +2,9 @@
 
 namespace networkcore
 {
-	Session::Session()
+	Session::Session() :
+		_iocpService{}
+		, _socket{}
 	{
 	}
 
@@ -16,8 +18,18 @@ namespace networkcore
 		return _socket;
 	}
 
+	void Session::SetSocket(SOCKET socket)
+	{
+		_socket = socket;
+	}
+
 	void Session::SetIocpService(IocpServicePtr iocpService)
 	{
 		_iocpService = iocpService;
+	}
+
+	IocpServicePtr Session::GetIocpService() const
+	{
+		return _iocpService;
 	}
 }

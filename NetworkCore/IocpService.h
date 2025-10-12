@@ -3,12 +3,16 @@
 
 namespace networkcore
 {
+	/// <summary>
+	/// Entire system class for network in windows
+	/// </summary>
 	class IocpService final
 	{
 	public:
 		NETWORKCORE_API static IocpServicePtr CreateIocpService(SessionFactoryFunc defaultSessionFactory
 			, unsigned int concurrency = std::jthread::hardware_concurrency());
 
+	public:
 		~IocpService();
 
 	private:
