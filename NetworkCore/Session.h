@@ -1,26 +1,19 @@
 #pragma once
 #include "NetworkCoreMinimal.h"
+#include "IocpObject.h"
 
 namespace networkcore
 {
-	class NETWORKCORE_API Session
+	class NETWORKCORE_API Session : public IocpObject
 	{
 	public:
-		Session();
-
-		virtual ~Session();
+		void SetSocket(SOCKET socket);
 
 		SOCKET GetSocket() const;
 
-		void SetSocket(SOCKET socket);
-
-		void SetIocpService(IocpServicePtr iocpService);
-
-		IocpServicePtr GetIocpService() const;
+		void Dispatch(IocpEvent* iocpEvent, DWORD numBytes) override;
 
 	private:
-		IocpServicePtr _iocpService;
-
 		SOCKET _socket;
 	};
 }

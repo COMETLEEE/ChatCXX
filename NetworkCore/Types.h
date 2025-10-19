@@ -7,6 +7,8 @@ namespace networkcore
 	class Session;
 
 	using IocpServicePtr = std::shared_ptr<IocpService>;
+	using IocpServiceWeakPtr = std::weak_ptr<IocpServicePtr>;
+
 	using ListenerPtr = std::shared_ptr<Listener>;
 	using SessionPtr = std::shared_ptr<Session>;
 	using SessionFactoryFunc = std::function<SessionPtr()>;

@@ -36,10 +36,16 @@
     <ClInclude Include="Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Listener.h">
+    <ClInclude Include="NetworkUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkSystem.h">
+    <ClInclude Include="IocpEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IocpObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Listener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -56,10 +62,16 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Listener.cpp">
+    <ClCompile Include="NetworkUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkSystem.cpp">
+    <ClCompile Include="IocpEvent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IocpObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Listener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

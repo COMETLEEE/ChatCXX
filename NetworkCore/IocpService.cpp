@@ -1,6 +1,11 @@
 #include "IocpService.h"
 #include "Session.h"
 #include "Logger.h"
+#include "NetworkUtil.h"
+
+#include "IocpEvent.h"
+#include "IocpObject.h"
+#include "Listener.h"
 
 namespace networkcore
 {
@@ -12,10 +17,47 @@ namespace networkcore
 		return iocpService;
 	}
 
+	void IocpService::Listen(int listenPort)
+	{
+		_listenSocket = NetworkUtil::CreateSocket(ESocketType::TCP);
+		_listenPort = listenPort;
+
+		SOCKADDR_IN addr{};
+
+		addr.sin_family = AF_INET;
+		addr.sin_port = htons(_listenPort);
+		addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+		NetworkUtil::Bind(_listenSocket, addr);
+		NetworkUtil::Listen(_listenSocket, SOMAXCONN);
+
+		::CreateIoCompletionPort((HANDLE)_listenSocket, _iocpHandle, (ULONG_PTR)_listenSocket, 0);
+
+		for (int i = 0; i < _listenerCount; ++i)
+		{
+			/*Listener* listener = cnew Listener(this);
+
+			listener->PostAccept()
+
+			SOCKET acceptSocket = NetworkUtil::CreateSocket(ESocketType::TCP);
+
+			listener->SetAcceptSocket(acceptSocket);
+
+			AcceptEvent* acceptEvent = cnew AcceptEvent();
+
+			NetworkUtil::Accept(listener, acceptEvent, _listenSocket);*/
+		}
+	}
+
 	IocpService::IocpService(SessionFactoryFunc defaultSessionFactory, unsigned int concurrency) :
 		_defaultSessionFactory(defaultSessionFactory)
 		, _hardwareConcurrency(concurrency)
+		, _listenSocket{INVALID_SOCKET}
+		, _listenPort{INT_MAX}
+		, _listenerCount{8}
 	{
+		NetworkUtil::Initialize();
+
 		_iocpHandle = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL
 			, NULL, _hardwareConcurrency);
 
@@ -33,6 +75,8 @@ namespace networkcore
 		HANDLE result = CreateIoCompletionPort((HANDLE)session->GetSocket(), _iocpHandle
 			, (ULONG_PTR)session.get(), 0);
 
+		// 해당 세션 소켓을 IOCP 에 걸어둔다.
+
 		if (NULL == result)
 		{
 			Logger::WriteError(std::format("Failed to register session socket. Error code - {}"
@@ -45,6 +89,10 @@ namespace networkcore
 		StopIocp();
 
 		CloseHandle(_iocpHandle);
+
+		NetworkUtil::CloseSocket(_listenSocket);
+
+		NetworkUtil::Cleanup();
 	}
 
 	SessionPtr IocpService::CreateSession()
@@ -79,25 +127,38 @@ namespace networkcore
 		}
 	}
 
+	// IOCP worker thread 에서는 I/O 만 진행
+	// 로직 진행은 전용 싱글 스레드로 전부 이관되도록 디자인
+	// Lock 최소화 디자인
 	void IocpService::WorkerIocp(std::stop_token st)
 	{
 		DWORD numBytes;
-		ULONG_PTR completionKey;
-		LPOVERLAPPED lpOverlapped;
+		IocpObject* iocpObject;
+		IocpEvent* iocpEvent;
 
 		while (!st.stop_requested())
 		{
-			BOOL bOk = GetQueuedCompletionStatus(_iocpHandle, &numBytes, &completionKey, &lpOverlapped, INFINITE);
-			DWORD error = GetLastError();
+			BOOL bOk = ::GetQueuedCompletionStatus(_iocpHandle, &numBytes, reinterpret_cast<ULONG_PTR*>(&iocpObject), reinterpret_cast<LPOVERLAPPED*>(&iocpEvent), INFINITE);
 
-			// Worker thread 에서는 I/O 만 진행하고 로직은 싱글 스레드로 전부 이관
 			if (bOk)
 			{
-
+				iocpObject->Dispatch(iocpEvent, numBytes);
 			}
 			else
 			{
+				DWORD error = ::WSAGetLastError();
 
+				switch (error)
+				{
+					case WAIT_TIMEOUT:
+					break;
+
+					default:
+					{
+
+					}
+					break;
+				}
 			}
 		}
 	}

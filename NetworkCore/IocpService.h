@@ -12,15 +12,17 @@ namespace networkcore
 		NETWORKCORE_API static IocpServicePtr CreateIocpService(SessionFactoryFunc defaultSessionFactory
 			, unsigned int concurrency = std::jthread::hardware_concurrency());
 
+		NETWORKCORE_API void Listen(int port);
+
 	public:
 		~IocpService();
-
-	private:
-		IocpService(SessionFactoryFunc defaultSessionFactory, unsigned int concurrency);
 
 		SessionPtr CreateSession();
 
 		SessionPtr CreateSession(SessionFactoryFunc sessionFactory);
+
+	private:
+		IocpService(SessionFactoryFunc defaultSessionFactory, unsigned int concurrency);
 
 		void RegisterSessionIocp(const SessionPtr& session);
 
@@ -30,12 +32,20 @@ namespace networkcore
 
 		void WorkerIocp(std::stop_token st);
 
-		SessionFactoryFunc _defaultSessionFactory;
-
 		HANDLE _iocpHandle;
 
 		std::vector<std::jthread> _iocpWorkers;
 
+		SessionFactoryFunc _defaultSessionFactory;
+
+		std::set<SessionPtr> _sessions;
+
 		const unsigned int _hardwareConcurrency;
+
+		SOCKET _listenSocket;
+
+		int _listenPort;
+
+		const int _listenerCount;
 	};
 }

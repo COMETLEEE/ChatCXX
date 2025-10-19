@@ -7,6 +7,8 @@
 #include <functional>
 #include <format>
 #include <coroutine>
+#include <cassert>
+#include <set>
 
 // C
 #include <WinSock2.h>

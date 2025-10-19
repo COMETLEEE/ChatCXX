@@ -1,16 +1,11 @@
 #include "Session.h"
+#include "IocpEvent.h"
 
 namespace networkcore
 {
-	Session::Session() :
-		_iocpService{}
-		, _socket{}
+	void Session::SetSocket(SOCKET socket)
 	{
-	}
-
-	Session::~Session()
-	{
-		 int result = closesocket(_socket);
+		_socket = socket;
 	}
 
 	SOCKET Session::GetSocket() const
@@ -18,18 +13,27 @@ namespace networkcore
 		return _socket;
 	}
 
-	void Session::SetSocket(SOCKET socket)
+	void Session::Dispatch(IocpEvent* iocpEvent, DWORD numBytes)
 	{
-		_socket = socket;
-	}
+		switch (iocpEvent->_type)
+		{
+			case EIocpEventType::Recv:
+			{
 
-	void Session::SetIocpService(IocpServicePtr iocpService)
-	{
-		_iocpService = iocpService;
-	}
+			}
+			break;
 
-	IocpServicePtr Session::GetIocpService() const
-	{
-		return _iocpService;
+			case EIocpEventType::Send:
+			{
+
+			}
+			break;
+
+			case EIocpEventType::Disconnect:
+			{
+
+			}
+			break;
+		}
 	}
 }
